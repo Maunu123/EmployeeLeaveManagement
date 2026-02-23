@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Edit Employee</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f8;
+      }
+
+      .container {
+        width: 600px;
+        margin: 30px auto;
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        margin-top: 10px;
+        font-weight: bold;
+      }
+
+      input,
+      select {
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      button {
+        margin-top: 15px;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      .links {
+        text-align: center;
+        margin-top: 15px;
+      }
+
+      .links a {
+        text-decoration: none;
+        color: #007bff;
+      }
+
+      .links a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Edit Employee</h2>
+
+      <form method="POST">
+        {% csrf_token %}
+
+        <label>First Name</label>
+        <input
+          type="text"
+          name="first_name"
+          value="{{ employee.first_name }}"
+          required
+        />
+
+        <label>Last Name</label>
+        <input
+          type="text"
+          name="last_name"
+          value="{{ employee.last_name }}"
+          required
+        />
+
+        <label>Email</label>
+        <input
+          type="email"
+          name="email"
+          value="{{ employee.email }}"
+          required
+        />
+
+        <label>Phone</label>
+        <input type="text" name="phone" value="{{ employee.phone }}" required />
+
+        <label>Department</label>
+        <input
+          type="text"
+          name="department"
+          value="{{ employee.department }}"
+          required
+        />
+
+        <label>Designation</label>
+        <input
+          type="text"
+          name="designation"
+          value="{{ employee.designation }}"
+          required
+        />
+
+        <label>Employee Type</label>
+        <select name="employee_type">
+          <option
+            value="HR"
+            {%
+            if
+            employee.employee_type=""
+            ="HR"
+            %}selected{%
+            endif
+            %}
+          >
+            HR
+          </option>
+          <option
+            value="Manager"
+            {%
+            if
+            employee.employee_type=""
+            ="Manager"
+            %}selected{%
+            endif
+            %}
+          >
+            Manager
+          </option>
+          <option
+            value="Staff"
+            {%
+            if
+            employee.employee_type=""
+            ="Staff"
+            %}selected{%
+            endif
+            %}
+          >
+            Staff
+          </option>
+        </select>
+
+        <label>Reporting Manager</label>
+        <select name="manager">
+          <option value="">None</option>
+          {% for mgr in managers %}
+          <option
+            value="{{ mgr.id }}"
+            {%
+            if
+            employee.manager
+            and
+            employee.manager.id=""
+            ="mgr.id"
+            %}
+            selected
+            {%
+            endif
+            %}
+          >
+            {{ mgr.first_name }} ({{ mgr.employee_type }})
+          </option>
+          {% endfor %}
+        </select>
+
+        <label>New Password (leave blank if no change)</label>
+        <input type="password" name="password" />
+
+        <button type="submit">Update Employee</button>
+      </form>
+
+      <div class="links">
+        <a href="{% url 'admin_dashboard' %}">Back to Dashboard</a>
+      </div>
+    </div>
+  </body>
+</html>

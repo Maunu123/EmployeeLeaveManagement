@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pending Leave Requests</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f8;
+      }
+
+      .container {
+        width: 900px;
+        margin: 40px auto;
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      table th,
+      table td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ddd;
+      }
+
+      table th {
+        background-color: #f2f2f2;
+      }
+
+      form {
+        display: inline;
+      }
+
+      .approve-btn {
+        padding: 6px 12px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 5px;
+      }
+
+      .approve-btn:hover {
+        background-color: #1e7e34;
+      }
+
+      .reject-btn {
+        padding: 6px 12px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .reject-btn:hover {
+        background-color: #b02a37;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Pending Leave Requests</h2>
+
+      <table>
+        <tr>
+          <th>Employee</th>
+          <th>Type</th>
+          <th>Dates</th>
+          <th>Action</th>
+        </tr>
+
+        {% for leave in leaves %}
+        <tr>
+          <td>{{ leave.employee.first_name }}</td>
+          <td>{{ leave.leave_type }}</td>
+          <td>{{ leave.start_date }} to {{ leave.end_date }}</td>
+          <td>
+            <form method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="leave_id" value="{{ leave.id }}" />
+
+              <button class="approve-btn" name="action" value="Approve">
+                Approve
+              </button>
+
+              <button class="reject-btn" name="action" value="Reject">
+                Reject
+              </button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </body>
+</html>

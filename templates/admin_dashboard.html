@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Admin Dashboard</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f8;
+      }
+
+      .container {
+        width: 600px;
+        margin: 30px auto;
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      h2,
+      h3 {
+        text-align: center;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        margin-top: 10px;
+        font-weight: bold;
+      }
+
+      input,
+      select {
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      button {
+        margin-top: 15px;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+
+      table th,
+      table td {
+        padding: 8px;
+        text-align: center;
+        border: 1px solid #ddd;
+      }
+
+      table th {
+        background-color: #f2f2f2;
+      }
+
+      .links {
+        text-align: center;
+        margin-top: 15px;
+      }
+
+      .message {
+        color: red;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Admin Dashboard</h2>
+
+      <!-- Messages -->
+      {% if messages %} {% for message in messages %}
+      <p class="message">{{ message }}</p>
+      {% endfor %} {% endif %}
+
+      <h3>Add Employee</h3>
+
+      <form method="POST">
+        {% csrf_token %}
+
+        <label>First Name</label>
+        <input type="text" name="first_name" required />
+
+        <label>Last Name</label>
+        <input type="text" name="last_name" required />
+
+        <label>Email</label>
+        <input type="email" name="email" required />
+
+        <label>Phone</label>
+        <input type="text" name="phone" required />
+
+        <label>Department</label>
+        <input type="text" name="department" required />
+
+        <label>Designation</label>
+        <input type="text" name="designation" required />
+
+        <label>Password</label>
+        <input type="password" name="password" required />
+
+        <label>Employee Type</label>
+        <select name="employee_type">
+          <option value="HR">HR</option>
+          <option value="Manager">Manager</option>
+          <option value="Staff">Staff</option>
+        </select>
+
+        <label>Reporting Manager</label>
+        <select name="manager">
+          <option value="">Select Reporting Manager</option>
+          {% for mgr in managers %}
+          <option value="{{ mgr.id }}">
+            {{ mgr.first_name }} ({{ mgr.employee_type }})
+          </option>
+          {% endfor %}
+        </select>
+
+        <button type="submit">Add Employee</button>
+      </form>
+
+      <hr />
+
+      <h3>All Employees</h3>
+
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Reports To</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+
+        {% for emp in employees %}
+        <tr>
+          <td>{{ emp.first_name }} {{ emp.last_name }}</td>
+          <td>{{ emp.employee_type }}</td>
+          <td>
+            {% if emp.manager %} {{ emp.manager.first_name }} {% else %} - 
+            {% endif %}
+          </td>
+          <td>
+            <a href="{% url 'edit_employee' emp.id %}">Edit</a>
+          </td>
+          <td>
+            <a href="{% url 'delete_employee' emp.id %}">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+
+      <div class="links">
+        <a href="{% url 'logout' %}">Logout</a> |
+        <a href="{% url 'manage_leave' %}">Approve Requests</a>
+      </div>
+    </div>
+  </body>
+</html>

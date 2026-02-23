@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apply Leave</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f8;
+      }
+
+      .container {
+        width: 500px;
+        margin: 40px auto;
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        margin-top: 10px;
+        font-weight: bold;
+      }
+
+      input,
+      select,
+      textarea {
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+
+      button {
+        margin-top: 15px;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Apply Leave</h2>
+
+      <form method="POST">
+        {% csrf_token %}
+
+        <label>Leave Type</label>
+        <select name="leave_type">
+          <option value="Sick">Sick</option>
+          <option value="Casual">Casual</option>
+        </select>
+
+        <label>Start Date</label>
+        <input type="date" name="start_date" required />
+
+        <label>End Date</label>
+        <input type="date" name="end_date" required />
+
+        <label>Reason</label>
+        <textarea name="reason" required></textarea>
+
+        <button type="submit">Apply Leave</button>
+      </form>
+    </div>
+  </body>
+</html>

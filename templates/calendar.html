@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leave Calendar</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+</head>
+<body>
+<center>
+
+<h2>Company Leave Calendar</h2>
+
+<div id="calendar"></div>
+
+<!-- Safely store JSON -->
+<script id="events-data" type="application/json">
+    {{ events_json|safe }}
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    var events = JSON.parse(
+        document.getElementById('events-data').textContent
+    );
+
+    var calendar = new FullCalendar.Calendar(
+        document.getElementById('calendar'),
+        {
+            initialView: 'dayGridMonth',
+            events: events,
+
+            eventDidMount: function(info) {
+                if (info.event.extendedProps.status === 'Approved') {
+                    info.el.style.backgroundColor = 'green';
+                } else if (info.event.extendedProps.status === 'Pending') {
+                    info.el.style.backgroundColor = 'orange';
+                } else if (info.event.extendedProps.status === 'Rejected') {
+                    info.el.style.backgroundColor = 'red';
+                }
+            }
+        }
+    );
+
+    calendar.render();
+});
+</script>
+</center>
+
+</body>
+</html>

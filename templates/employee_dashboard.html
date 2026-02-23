@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Dashboard</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f8;
+      }
+
+      .container {
+        width: 800px;
+        margin: 40px auto;
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      h2,
+      h3 {
+        text-align: center;
+      }
+
+      .balance-box {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+      }
+
+      .balance-box ul {
+        list-style: none;
+        padding: 0;
+        text-align: center;
+      }
+
+      .balance-box li {
+        margin: 5px 0;
+        font-weight: bold;
+      }
+
+      .nav-links {
+        text-align: center;
+        margin: 15px 0;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #007bff;
+        margin: 0 10px;
+        font-weight: 500;
+      }
+
+      .nav-links a:hover {
+        text-decoration: underline;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+
+      table th,
+      table td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ddd;
+      }
+
+      table th {
+        background-color: #f2f2f2;
+      }
+
+      hr {
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Welcome {{ employee.first_name }}</h2>
+
+      <h3>Leave Balance</h3>
+      <div class="balance-box">
+        <ul>
+          <li>Sick: {{ balance.sick_days }}</li>
+          <li>Casual: {{ balance.casual_days }}</li>
+        </ul>
+      </div>
+
+      <div class="nav-links">
+        <a href="{% url 'apply_leave' %}">Apply Leave</a> |
+        <a href="{% url 'manage_leave' %}">Approve Requests</a> |
+        <a href="{% url 'leave_calendar' %}">Calendar</a> |
+        <a href="{% url 'logout' %}">Logout</a>
+      </div>
+
+      <hr />
+
+      <h3>My Leaves</h3>
+      <table>
+        <tr>
+          <th>Type</th>
+          <th>From</th>
+          <th>To</th>
+          <th>Status</th>
+        </tr>
+        {% for leave in leaves %}
+        <tr>
+          <td>{{ leave.leave_type }}</td>
+          <td>{{ leave.start_date }}</td>
+          <td>{{ leave.end_date }}</td>
+          <td>{{ leave.status }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </body>
+</html>
