@@ -30,6 +30,7 @@ A Django-based web application to manage employees, leave applications, approval
 
 ## 📂 Project Structure
 
+```
 EmployeeLeaveManagement/
 │
 ├── manage.py
@@ -56,6 +57,7 @@ EmployeeLeaveManagement/
 ├── urls.py
 ├── migrations/
 │ └── **init**.py
+```
 
 ---
 
