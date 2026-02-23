@@ -64,7 +64,7 @@ EmployeeLeaveManagement/
 ### 1️⃣ Clone Repository
 
 ```bash
-git clone <your-github-repository-link>
+git clone https://github.com/Maunu123/EmployeeLeaveManagement.git
 cd EmployeeLeaveManagement
 ```
 
